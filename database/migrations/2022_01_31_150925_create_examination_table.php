@@ -13,11 +13,11 @@ class CreateExaminationTable extends Migration
      */
     public function up()
     {
-        Schema::create('examination', function (Blueprint $table) {
+        Schema::create('examinations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('patient_id')->constrained();
-            $table->boolean('is_completed');
+            $table->boolean('is_completed')->default(0);
             $table->string('diagnosis', 2000);
             $table->timestamps();
 

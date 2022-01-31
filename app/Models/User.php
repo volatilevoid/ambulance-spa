@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     const USER_ROLE_ADMIN = 1;
     const USER_ROLE_DOCTOR = 2;
@@ -22,7 +22,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
+        'user_role_id',
+        'doctor_type_id',
+        'username',
         'password',
     ];
 
@@ -32,8 +36,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password'
     ];
 
     /**
@@ -41,7 +44,15 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $casts = [];
+
+    public function doctorType()
+    {
+        return $this->belongsTo(DoctorType::class);
+    }
+    // TODO
+    // public function patients()
+    // {
+    //     return $this->belongsToMany(Patient::class, 'examinations', 'doctor_id')->using(Examination::class);
+    // }
 }
