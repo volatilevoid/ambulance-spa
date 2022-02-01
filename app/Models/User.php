@@ -50,9 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(DoctorType::class);
     }
-    // TODO
-    // public function patients()
-    // {
-    //     return $this->belongsToMany(Patient::class, 'examinations', 'doctor_id')->using(Examination::class);
-    // }
+    
+    public function examinations()
+    {
+        return $this->hasMany(Examination::class, 'doctor_id');
+    }
 }

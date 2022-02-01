@@ -20,9 +20,9 @@ class Patient extends Model
     {
         return $this->belongsTo(Location::class);
     }
-    // TODO
-    // public function doctors()
-    // {
-    //     return $this->belongsToMany(User::class, 'examinations', 'patient_id')->using(Examination::class);
-    // }
+
+    public function examinations()
+    {
+        return $this->hasMany(Examination::class);
+    }
 }
