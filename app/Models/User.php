@@ -55,4 +55,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Examination::class, 'doctor_id');
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->user_role_id === self::USER_ROLE_ADMIN;
+    }
+
+    public function isDoctor(): bool
+    {
+        return $this->user_role_id === self::USER_ROLE_DOCTOR;
+    }
 }

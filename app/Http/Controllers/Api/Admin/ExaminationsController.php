@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Examination;
 use Illuminate\Http\Request;
 
-class DoctorController extends Controller
+class ExaminationsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,17 @@ class DoctorController extends Controller
      */
     public function index(Request $request)
     {
-        $q = $request->get('q'); // search by id/name/last_name/location/jmbg
-        
-        $query = User::query()->where('user_role_id', '=', User::USER_ROLE_DOCTOR);
+        // $patientID = $request->get('patient_id');
+        // $doctorID = $request->get('doctor_id');
+        // $from = $request->get('from');
+        // $to = $request->to('to');
+        // $isCompleted = $request->get('is_completed');
+
+        // $query = Examination::query();
+
+        return response()->json([
+            'response' => 'ExaminationsController@index'
+        ]);
     }
 
     /**

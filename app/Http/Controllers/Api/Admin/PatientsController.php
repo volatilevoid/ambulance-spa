@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
-class PatientController extends Controller
+class PatientsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,6 +18,10 @@ class PatientController extends Controller
         $q = $request->get('q'); // search by id/name/last_name/location/jmbg
 
         $query = Patient::query();
+
+        return response()->json([
+            'response' => 'PatientsController@index'
+        ]);
     }
 
     /**
