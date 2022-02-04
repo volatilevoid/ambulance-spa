@@ -22,11 +22,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('last_name', 100);
+            $table->string('last_name', 100)->nullable();
             $table->unsignedSmallInteger('user_role_id');    // Admin || Doctor
             $table->foreignId('doctor_type_id')->nullable()->constrained();
             $table->string('username', 32)->unique();
             $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

@@ -22,8 +22,12 @@ class DoctorTypeFactory extends Factory
      */
     public function definition()
     {
+        $types = ['Family physician', 'Psychiatrist', 'Gynecologist', 'Pediatrician'];
+
+        $randIndex = array_rand($types);
+        
         return [
-            'name' => $this->faker->randomElement(['Family physician', 'Psychiatrist', 'Gynecologist', 'Pediatrician'])
+            'name' => $types[$randIndex]
         ];
     }
 }

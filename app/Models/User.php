@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use  HasApiTokens, HasFactory, Notifiable;
 
     const USER_ROLE_ADMIN = 1;
     const USER_ROLE_DOCTOR = 2;
@@ -27,7 +27,7 @@ class User extends Authenticatable
         'user_role_id',
         'doctor_type_id',
         'username',
-        'password',
+        'password'
     ];
 
     /**
@@ -36,7 +36,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password'
+        'password',
+        'remember_token'
     ];
 
     /**

@@ -14,7 +14,7 @@ class PatientsPage extends Component {
 
     render() {
         return (
-            <h1>Examinations Page</h1>
+            <h1>Patients Page</h1>
         );
     }
 }
