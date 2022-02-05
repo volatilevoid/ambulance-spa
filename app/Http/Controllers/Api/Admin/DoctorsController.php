@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DoctorType;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -88,5 +89,14 @@ class DoctorsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDoctorTypes()
+    {
+        $allTypes = DoctorType::all(['id', 'name']);
+
+        return response()->json([
+            'doctor_types' => $allTypes
+        ]);
     }
 }

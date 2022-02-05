@@ -6,6 +6,11 @@ class Navbar extends Component {
         super(props);
         this.state = {  };
     }
+
+    handleLogout = () => {
+        this.props.onLogoutBtnClicked();
+    }
+
     render() {
         if(!this.props.showNav) {
                 return <div className='d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100'></div>;
@@ -37,8 +42,8 @@ class Navbar extends Component {
                         </li>
                     </ul>
 
-                    <div>
-                        user(profile etc.)
+                    <div className='my-4'>
+                        <button type="button" className="btn btn-outline-danger" onClick={this.handleLogout}>Logout</button>
                     </div>
 
                 </div>

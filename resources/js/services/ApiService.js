@@ -2,12 +2,12 @@ import axios from "axios";
 
 class ApiService
 {
-    baseUrl = 'http://abmulance.local/api/';
+    BASE_URL = 'http://ambulance.local/api/';
     token = '';
 
     config = {
         'headers': {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${this.token}`
         }
     }
 
@@ -22,32 +22,21 @@ class ApiService
     }
 
     apiGet(endpoint) {
-        const config = {
-            headers: { 
-                'Authorization': `Bearer ${token}` 
-            }
-        }
-        
-        return axios.get(endpoint, config);
+        return axios.get(this.BASE_URL + endpoint, this.config);
     }
 
-    apiPost(endpoint, data) {
-        const config = {
-            headers: { 
-                'Authorization': `Bearer ${token}` 
-            }
-        };
+    apiPost(endpoint, data ={}) {
+        return axios.post(this.BASE_URL + endpoint, data, this.config);
+    }
 
-        return axios.post(this.baseUrl + endpoint, data, config);
+    apiDelete(endpoint) {
+        return axios.delete(this.BASE_URL + endpoint, this.config);
     }
 
     setToken(token) {
         this.token = token;
     }
-    
-    setConfig(config) {
-
-    }
+  
 }
 
 export default ApiService;

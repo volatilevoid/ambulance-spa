@@ -38,17 +38,39 @@ class AuthController extends Controller
             'success' => true,
             'access_token' => $token->plainTextToken,
             'token_type' => 'Bearer',
-            'user_role' => $user->user_role_id === User::USER_ROLE_ADMIN ? 'admin' : 'doctor'
+            'user' => $user,
+            'user_role' => $user->getUserRole()
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::user()->currentAccessToken()->delete();
+        $user = Auth::user();
+
+        if(!is_null($user)) {
+            $user->tokens()->delete();
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Successfull log out',
+        ]);
+    }
+
+    public function isTokenValid()
+    {
+        $isValid = false;
+        $user = Auth::user();
+        $role = '';
+
+        if(!is_null($user)) {
+            $isValid = true;
+            $role = $user->getUserRole();
+        }
+
+        return response()->json([
+            'is_token_valid' => $isValid,
+            'user_role' => $role
         ]);
     }
 }

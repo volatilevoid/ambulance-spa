@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->user_role_id === self::USER_ROLE_DOCTOR;
     }
+
+    public function getUserRole()
+    {
+        return $this->user_role_id === self::USER_ROLE_ADMIN ? 'admin' : 'doctor';
+    }
 }

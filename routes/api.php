@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\ExaminationsController as AdminExaminationsController;
 use App\Http\Controllers\Api\Admin\DoctorsController as AdminDoctorsController;
 use App\Http\Controllers\Api\Admin\PatientsController as AdminPatientsController;
+use App\Http\Controllers\Api\Admin\LocationsController;
 use App\Http\Controllers\Api\AuthController;
 
 /*
@@ -22,11 +22,24 @@ use App\Http\Controllers\Api\AuthController;
 //     return $request->user();
 // });
 
+Route::get('check-token', [AuthController::class, 'isTokenValid']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum']], function() {
-    Route::resource('examinations', AdminExaminationsController::class);
-    Route::resource('doctors', AdminDoctorsController::class);
-    Route::resource('patients', AdminPatientsController::class);
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::get('locations', [LocationsController::class, 'get']);
+
+    Route::group(['prefix' => 'admin'], function() {
+        Route::resource('examinations', AdminExaminationsController::class);
+        Route::get('doctor-types', [AdminDoctorsController::class, 'getDoctorTypes']);
+        Route::resource('doctors', AdminDoctorsController::class);
+        Route::resource('patients', AdminPatientsController::class);
+    });
+
+});
+
+
+
+Route::group(['prefix' => 'doctor', 'middleware' => ['auth:sanctum']], function() {
+
 });
