@@ -12,19 +12,16 @@ class Navbar extends Component {
     }
 
     render() {
+        console.log(this);
         if(!this.props.showNav) {
                 return <div className='d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100'></div>;
                 
         }
-        
-        return (
-                <div className='d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100'>
-                                
-                    {/* <a href="/" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span className="fs-5 d-none d-sm-inline">Admin/Dr</span>
-                    </a> */}
+        let links = '';
 
-                    <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+        if(this.props.userRole === 'admin') {
+            links = (
+                <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li className="nav-item">
                             <Link to="/admin/examinations" className="nav-link align-middle px-0">
                                 <i className="fs-4 bi bi-table"></i> <span className="ms-1 d-none d-sm-inline">Examinations</span>
@@ -41,11 +38,27 @@ class Navbar extends Component {
                             </Link>
                         </li>
                     </ul>
+            );
+        }
 
+        if (this.props.userRole === 'doctor') {
+            links = (
+                    <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li className="nav-item">
+                            <Link to="/doctor/examinations" className="nav-link align-middle px-0">
+                                <i className="fs-4 bi bi-table"></i> <span className="ms-1 d-none d-sm-inline">Examinations</span>
+                            </Link>
+                        </li>
+                    </ul>
+                );
+        }
+        
+        return (
+                <div className='d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100'>
+                    { links }
                     <div className='my-4'>
                         <button type="button" className="btn btn-outline-danger" onClick={this.handleLogout}>Logout</button>
                     </div>
-
                 </div>
         );
     }

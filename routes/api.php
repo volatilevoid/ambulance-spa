@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\ExaminationsController as AdminExaminationsController;
 use App\Http\Controllers\Api\Admin\DoctorsController as AdminDoctorsController;
 use App\Http\Controllers\Api\Admin\PatientsController as AdminPatientsController;
+use App\Http\Controllers\Api\Doctor\ExaminationsController as DoctorExaminationsController;
 use App\Http\Controllers\Api\Admin\LocationsController;
 use App\Http\Controllers\Api\AuthController;
 
@@ -18,10 +19,7 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
+// Public routes
 Route::get('check-token', [AuthController::class, 'isTokenValid']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
@@ -37,10 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
         Route::resource('patients', AdminPatientsController::class);
     });
 
-});
-
-
-
-Route::group(['prefix' => 'doctor', 'middleware' => ['auth:sanctum']], function() {
-
+    Route::group(['prefix' => 'doctor'], function() {
+        Route::resource('examinations', DoctorExaminationsController::class);
+    });
 });

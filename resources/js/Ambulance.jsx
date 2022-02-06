@@ -12,7 +12,8 @@ import ApiService from './services/ApiService';
 import SinglePatientPage from './pages/admin/SinglePatientPage';
 import SingleDoctorPage from "./pages/admin/SingleDoctorPage";
 import SingleExaminationPage from './pages/admin/SingleExaminationPage';
-
+import { default as DoctorExaminationsPage } from "./pages/doctor/ExaminationsPage";
+import { default as DoctorSingleExaminationPage } from "./pages/doctor/SingleExaminationPage";
 class Ambulance extends Component {
     authTokenLabel = "amb_auth_token";
 
@@ -46,11 +47,13 @@ class Ambulance extends Component {
                 .then(response => {
                     let endpoint = response.data.user_role + '/examinations';
                     console.log('token_valid', response.data.is_token_valid);
+                    console.log('sss', response);
 
                     if (response.data.is_token_valid === true) {
                         isUserAuthenticated = true;
                         this.setState({
                             isAuthenticated: isUserAuthenticated,
+                            userRole: response.data.user_role
                         });
                         
                         this.props.navigate(endpoint);
@@ -66,10 +69,7 @@ class Ambulance extends Component {
     }
 
     handleUserLogin = (formData) => {
-        console.log(formData);
-        let _this = this;
-        axios
-            .get("http://ambulance.local/sanctum/csrf-cookie")
+        axios.get("http://ambulance.local/sanctum/csrf-cookie")
             .then((response) => {
                 return ApiService.getInstance().apiPost("login", {
                     ...formData,
@@ -77,21 +77,18 @@ class Ambulance extends Component {
             })
             .then((response) => {
                 console.log("response", response);
-                
                 // Navigate to main page
                 let endpoint = response.data.user_role + '/examinations';
-
+                
                 if (response.data.success) {
                     localStorage.setItem(
                         this.authTokenLabel,
                         response.data.access_token
                     );
-
                     this.setState({
-                        userRole: response.data.userRole,
+                        userRole: response.data.user_role,
                         isAuthenticated: true,
                     });
-
                     this.props.navigate(endpoint);
                 }
             });
@@ -178,6 +175,25 @@ class Ambulance extends Component {
                                     <ProtectedRoute
                                         isAuth={ this.state.isAuthenticated }>
                                         <SinglePatientPage />
+                                    </ProtectedRoute>
+                                } />
+                        </Route>
+
+                        <Route path="doctor">
+                            <Route
+                                path="examinations"
+                                element={
+                                    <ProtectedRoute
+                                        isAuth={ this.state.isAuthenticated }>
+                                        <DoctorExaminationsPage />
+                                    </ProtectedRoute>
+                                } />
+                            <Route
+                                path="examinations/:id"
+                                element={
+                                    <ProtectedRoute
+                                        isAuth={ this.state.isAuthenticated }>
+                                        <DoctorSingleExaminationPage />
                                     </ProtectedRoute>
                                 } />
                         </Route>

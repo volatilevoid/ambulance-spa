@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->string('last_name', 100);
             $table->char('personal_identification_number', 13);
             $table->foreignId('location_id')->constrained();
-            $table->string('note', 1000);
+            $table->string('note', 1000)->nullable();
             $table->timestamps();
         });
     }

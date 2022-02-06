@@ -21,6 +21,7 @@ class ExaminationsController extends Controller
      */
     public function index(Request $request)
     {
+        // TODO filter
         $patientID = $request->get('patient_id');
         $doctorID = $request->get('user_id');
         $from = $request->get('from');
@@ -41,11 +42,11 @@ class ExaminationsController extends Controller
             'is_completed'
         ]);
 
-        $examination = DB::select($query->toSql(), $query->getBindings());
+        $examinations = DB::select($query->toSql(), $query->getBindings());
 
         return response()->json([
             'success' => true,
-            'examinations' => $examination
+            'examinations' => $examinations
         ]);
     }
 
@@ -96,23 +97,28 @@ class ExaminationsController extends Controller
         } else {
             $examination = Examination::find($examinationID);
 
-            if (!is_null($examination)) {
-                $examination->patient_id = $request->patient_id;
-                $examination->user_id = $request->user_id;
-                $examination->scheduled_appointment = $appointmentDatetime;
-                $examination->diagnosis = $request->diagnosis;
-                $examination->is_completed = $request->is_completed;
+            if (is_null($examination)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Invalid examination"
+                ]);
+            }
 
-                if (!$examination->save()) {
-                    throw new Exception('Error updating patient');
-                }
+            $examination->patient_id = $request->patient_id;
+            $examination->user_id = $request->user_id;
+            $examination->scheduled_appointment = $appointmentDatetime;
+            $examination->diagnosis = $request->diagnosis;
+            $examination->is_completed = $request->is_completed;
+            
+            if (!$examination->save()) {
+                throw new Exception('Error updating patient');
             }
         }
 
 
         return response()->json([
             'success' => true,
-            'examination' => $request->all()
+            'examination' => $examination
         ]);
     }
 

@@ -51,7 +51,7 @@ class ExaminationsPage extends Component {
                 <td>{examination.is_completed == 0 ? 'No' : 'Yes'}</td>
                 <td>
                     <div className="dropdown">
-                        <button id="dropdownMenuButton1" className='btn btn-outline-danger dropdown-toggle mx-1' data-bs-toggle="dropdown" aria-expanded="false"><i className="bi bi-gear-fill"></i></button>
+                        <button id="dropdownMenuButton1" className='btn btn-outline-primary dropdown-toggle mx-1' data-bs-toggle="dropdown" aria-expanded="false"><i className="bi bi-gear-fill"></i></button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li>
                                 <Link to={`/admin/examinations/${examination.id}`} className='dropdown-item'>

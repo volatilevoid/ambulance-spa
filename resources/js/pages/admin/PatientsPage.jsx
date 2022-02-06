@@ -44,19 +44,8 @@ class PatientsPage extends Component {
                 <td>{patient.personal_identification_number}</td>
                 <td>{patient.location}</td>
                 <td>
-                    {/* <div className='d-flex'>
-                        <Link to={`/admin/patients/${patient.id}`}>
-                            <button className='btn btn-outline-primary mx-1'><i className="bi bi-gear-fill"></i></button>
-                        </Link>
-                        <button className='btn btn-outline-danger mx-1'><i class="bi bi-trash"></i></button>
-
-                    </div> */}
-
                     <div className="dropdown">
-                        {/* <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
-                        </button> */}
-                        <button id="dropdownMenuButton1" className='btn btn-outline-danger dropdown-toggle mx-1' data-bs-toggle="dropdown" aria-expanded="false"><i className="bi bi-gear-fill"></i></button>
+                        <button id="dropdownMenuButton1" className='btn btn-outline-primary dropdown-toggle mx-1' data-bs-toggle="dropdown" aria-expanded="false"><i className="bi bi-gear-fill"></i></button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li>
                                 <Link to={`/admin/patients/${patient.id}`} className='dropdown-item'>

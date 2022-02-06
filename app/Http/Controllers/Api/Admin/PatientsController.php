@@ -76,7 +76,6 @@ class PatientsController extends Controller
             'last_name' => 'string',
             'location_id' => 'integer|required',
             'personal_identification_number' => 'required|digits:13',
-            'note' => 'string',
         ]);
 
         if ($validator->fails()) {

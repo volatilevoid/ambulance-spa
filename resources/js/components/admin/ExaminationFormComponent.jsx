@@ -127,14 +127,11 @@ class ExaminationFormComponent extends Component {
             scheduled_appointment: date
         });
     }
-
-    setUnavailableDates() {}
-
+    // TODO
     setUnavailableTimes() {}
 
 
     render() {
-
         const doctors = this.state.doctors.map(doctor => <option key={doctor.id} value={doctor.id}>{`${doctor.id}: ${doctor.name} ${doctor.last_name}`}</option>);
         const patients = this.state.patients.map(patient => <option key={patient.id} value={patient.id}>{`${patient.id}: ${patient.name} ${patient.last_name}`}</option>);
         const button = this.state.id === 0 ? 

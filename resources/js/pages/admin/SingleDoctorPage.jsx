@@ -17,4 +17,4 @@ class SingleDoctorPage extends Component {
     }
 }
 
-export default withRouter(SingleDoctorPage);
+export default SingleDoctorPage;

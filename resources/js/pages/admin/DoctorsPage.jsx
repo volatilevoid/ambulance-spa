@@ -50,7 +50,7 @@ class DoctorsPage extends Component {
                 <td>{doctor.username}</td>
                 <td>
                     <div className="dropdown">
-                        <button id="dropdownMenuButton1" className='btn btn-outline-danger dropdown-toggle mx-1' data-bs-toggle="dropdown" aria-expanded="false"><i className="bi bi-gear-fill"></i></button>
+                        <button id="dropdownMenuButton1" className='btn btn-outline-primary dropdown-toggle mx-1' data-bs-toggle="dropdown" aria-expanded="false"><i className="bi bi-gear-fill"></i></button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li>
                                 <Link to={`/admin/doctors/${doctor.id}`} className='dropdown-item'>

@@ -15,11 +15,9 @@ use Illuminate\Support\Facades\Hash;
  * TODO
  * 
  * - search
- * - admin examination form (edit/create)
- * - admin examinations
- * 
- * - dr examination form (edit diagnosis and is_completed)
- * - dr examinations list
+ * - FE validation
+ * - failed req message
+ * - 
  * 
  */
 
@@ -49,7 +47,7 @@ class DoctorsController extends Controller
             $query->where('doctor_type_id', '=', $doctorTypeID);
         }
 
-        $query->select(['users.id AS id', 'users.name AS name', 'last_name', 'doctor_types.name AS type', 'doctor_types.id AS type_id', 'username']);
+        $query->select(['users.id AS id', 'users.name AS name', 'last_name', 'doctor_types.name AS type', 'doctor_types.id AS doctor_type_id', 'username']);
 
         $doctors = DB::select($query->toSql(), $query->getBindings());
 
@@ -84,7 +82,7 @@ class DoctorsController extends Controller
             'id' => 'integer',
             'name' => 'string|required',
             'last_name' => 'string',
-            'type_id' => 'integer|required',
+            'doctor_type_id' => 'integer|required|exists:doctor_types,id',
             'username' => 'required|string',
             'password' => 'string',
         ]);
@@ -100,7 +98,7 @@ class DoctorsController extends Controller
             $doctor = User::create([
                 'name' => $request->name,
                 'last_name' => $request->last_name,
-                'doctor_type_id' => $request->type_id,
+                'doctor_type_id' => $request->doctor_type_id,
                 'user_role_id' => User::USER_ROLE_DOCTOR,
                 'username' => $request->username,
                 'password' => $request->password,
@@ -111,10 +109,10 @@ class DoctorsController extends Controller
             if (!is_null($doctor)) {
                 $doctor->name = $request->name;
                 $doctor->last_name = $request->last_name;
-                $doctor->doctor_type_id = $request->type_id;
+                $doctor->doctor_type_id = $request->doctor_type_id;
                 $doctor->username = $request->username;
 
-                if ($request->password !== '') {
+                if (!empty($request->get('password'))) {
                     $doctor->password = Hash::make($request->password);
                 }
                 

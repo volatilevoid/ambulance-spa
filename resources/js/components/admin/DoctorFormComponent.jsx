@@ -6,35 +6,23 @@ class DoctorFormComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            doctor: {
-                id: 0,
-                name: '',
-                last_name: '',
-                type_id: '',
-                username: '',
-                password: '',
-            },
+            id: 0,
+            name: '',
+            last_name: '',
+            doctor_type_id: 0,
+            username: '',
+            password: '',
             doctorTypes: [],
             submit_disabled: true
          };
     }
 
-    componentDidMount() {
-        ApiService.getInstance().apiGet('admin/doctor-types')
-            .then(doctorTypes => {
-                console.log(doctorTypes);
-            });
-
-
-    }
-
     handleChange = (event) => {
+        console.log('this', this);
+        console.log('event', event);
         // shallow
-        let doctor = {...this.state.doctor};
-        doctor[event.target.name] = event.target.value;
-
         this.setState({
-            doctor: doctor
+            [event.target.name]: event.target.value
         });
 
         if (this.state.submit_disabled) {
@@ -48,24 +36,14 @@ class DoctorFormComponent extends Component {
         event.preventDefault();
         
         ApiService.getInstance().apiPost('admin/doctors', {
-            id: this.state.doctor.id,
-            name: this.state.doctor.name,
-            last_name: this.state.doctor.last_name,
-            type_id: this.state.doctor.type_id,
-            username: this.state.doctor.username,
-            password: this.state.doctor.password 
+            id: this.state.id,
+            name: this.state.name,
+            last_name: this.state.last_name,
+            doctor_type_id: this.state.doctor_type_id,
+            username: this.state.username,
+            password: this.state.password 
         }).then(response => {
             if (response.data.success) {
-                // this.setState({
-                //     doctor: {
-                //         id: response.data.doctor.id,
-                //         name: response.data.doctor.name,
-                //         last_name: response.data.doctor.last_name,
-                //         type_id: response.data.doctor.type_id,
-                //         username: response.data.doctor.username,
-                //         password: response.data.doctor.password, 
-                //     }
-                // });
                 this.props.navigate(-1);
             }
         });
@@ -81,30 +59,27 @@ class DoctorFormComponent extends Component {
             });
         
         if (this.props.params.id != 0) {
-            console.log(`admin/doctors/${this.props.params.id}`);
             ApiService.getInstance().apiGet(`admin/doctors/${this.props.params.id}`)
                 .then(response => {
                     console.log(response);
                     this.setState({
-                        doctor: {
-                            id: response.data.doctor.id,
-                            name: response.data.doctor.name,
-                            last_name: response.data.doctor.last_name,
-                            type_id: response.data.doctor.type_id,
-                            username: response.data.doctor.username
-                        }
+                        id: response.data.doctor.id,
+                        name: response.data.doctor.name,
+                        last_name: response.data.doctor.last_name,
+                        doctor_type_id: response.data.doctor.doctor_type_id,
+                        username: response.data.doctor.username
                     });
-                    console.log(this);
                 });
         }
         
     }
 
     render() {
+        console.log(this);
         const doctor_types = this.state.doctorTypes.map(doctorType => <option key={doctorType.id} value={doctorType.id}>{doctorType.name}</option>);
         const button = this.state.id === 0 ? 
-            <button type="submit" disabled={this.state.submit_disabled} className="btn btn-primary">Create</button> :
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" disabled={this.state.submit_disabled || this.state.doctor_type_id == 0} className="btn btn-primary">Createxxx</button> :
+            <button type="submit" disabled={this.state.doctor_type_id == 0} className="btn btn-primary">Submit</button>
         let headerContent = this.state.id === 0 ? 'Create doctor' : 'Update doctor'
         return (
             <div >
@@ -117,7 +92,7 @@ class DoctorFormComponent extends Component {
                         className="form-control" 
                         type="text" 
                         name='name'
-                        value={this.state.doctor.name} 
+                        value={this.state.name} 
                         onChange={this.handleChange}/>
                     </div>
 
@@ -128,13 +103,14 @@ class DoctorFormComponent extends Component {
                         className="form-control" 
                         type="text" 
                         name='last_name'
-                        value={this.state.doctor.last_name} 
+                        value={this.state.last_name} 
                         onChange={this.handleChange}/>
                     </div>
 
                     <div className="mb-3">
                         <label>Select Location</label>
-                        <select className='form-select' name='type_id' value={this.state.doctor.type_id} onChange={this.handleChange}>
+                        <select className='form-select' name='doctor_type_id' value={this.state.doctor_type_id} onChange={this.handleChange}>
+                            <option key="0" value="0">Choose Dr. Type</option>
                             { doctor_types }
                         </select>
                     </div>
@@ -146,7 +122,7 @@ class DoctorFormComponent extends Component {
                         className="form-control" 
                         type="text" 
                         name='username'
-                        value={this.state.doctor.username} 
+                        value={this.state.username} 
                         onChange={this.handleChange}/>
                     </div>
 
@@ -157,7 +133,7 @@ class DoctorFormComponent extends Component {
                         className="form-control" 
                         type="password" 
                         name='password'
-                        value={this.state.doctor.password} 
+                        value={this.state.password} 
                         onChange={this.handleChange}/>
                     </div>
 
