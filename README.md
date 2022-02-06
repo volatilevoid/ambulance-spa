@@ -55,5 +55,6 @@ not completed examination.
 - create database with name from .env
 - `composer install`
 - `npm install`
+- `npm run production`
 - `php artisan migrate`
 - `php artisan db:seed` (user_admin & user_doctor, check db seeder class for credentials)
