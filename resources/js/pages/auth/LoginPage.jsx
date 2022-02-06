@@ -12,13 +12,21 @@ class LoginPage extends Component {
     }
 
     render() {
+        let errors = '';
+        
+        if (this.props.errorMessage) {
+            errors = <div className='d-flex'> { Object.keys(this.props.errorMessage).map(key => <p className='text-danger my-2' key={key}>{this.props.errorMessage[key]}</p>) } </div>;
+        }
+
         return (
+
             <div className='d-flex flex-column'>
                 <div className='mb-4'>
                     <p>Initial test admin credentials: user_admin, password_admin</p>
                     <p>Initial test doctor credentials: user_doctor, password_doctor</p>
                 </div>
                 <LoginForm onFormsubmit={this.handleFormSubmit} />
+                { errors }
             </div>
         );
     }

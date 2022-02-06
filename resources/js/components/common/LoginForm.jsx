@@ -22,29 +22,32 @@ class LoginForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="mb-3">
-                    <label className="form-label">Username</label>
-                    <input 
-                    id="username-input" 
-                    className="form-control" 
-                    type="text" 
-                    name='username'
-                    value={this.props.username} 
-                    onChange={this.handleChange}/>
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input 
-                    id="password-input" 
-                    className="form-control" 
-                    type="password"
-                    name='password'
-                    value={this.props.password}
-                    onChange={this.handleChange}/>
-                </div>
-                <button type="submit" className="btn btn-primary">Login</button>
-            </form>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <div className="mb-3">
+                        <label className="form-label">Username</label>
+                        <input 
+                        id="username-input"
+                        className="form-control"
+                        type="text"
+                        name='username'
+                        value={this.props.username}
+                        onChange={this.handleChange}/>
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Password</label>
+                        <input 
+                        id="password-input"
+                        className="form-control"
+                        type="password"
+                        name='password'
+                        value={this.props.password}
+                        onChange={this.handleChange}/>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Login</button>
+                </form>
+            </div>
+
         );
     }
 }

@@ -27,7 +27,7 @@ class AuthController extends Controller
         if(!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
             return response()->json([
                 'success' => false,
-                'message' => 'invalid user'
+                'message' => ['user' => 'User not found']
             ]);
         }
 

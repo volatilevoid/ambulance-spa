@@ -66,7 +66,7 @@ class ExaminationFormComponent extends Component {
         let headerContent = this.state.id === 0 ? 'Create examination' : 'Update examination'
 
         return (
-            <div >
+            <div>
                 <h1>{ headerContent }</h1>
                 <form onSubmit={this.handleSubmit}>
 

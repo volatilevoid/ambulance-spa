@@ -100,7 +100,7 @@ class ExaminationsController extends Controller
             if (is_null($examination)) {
                 return response()->json([
                     'success' => false,
-                    'message' => "Invalid examination"
+                    'message' => ['examination' => 'Invalid examination']
                 ]);
             }
 

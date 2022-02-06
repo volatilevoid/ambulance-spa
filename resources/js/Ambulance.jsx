@@ -27,6 +27,7 @@ class Ambulance extends Component {
                 username: "",
                 password: "",
             },
+            errorMessage: ''
         };
 
         this.isUserAuthenticated.bind(this);
@@ -82,8 +83,11 @@ class Ambulance extends Component {
                     this.setState({
                         userRole: response.data.user_role,
                         isAuthenticated: true,
+                        errorMessage: ''
                     });
                     this.props.navigate(endpoint);
+                } else {
+                    this.setState({errorMessage: response.data.message});
                 }
             });
     };
@@ -116,11 +120,12 @@ class Ambulance extends Component {
                     />
                 </div>
                 <div className="col p-3 d-flex align-items-start justify-content-center">
+                    
                     <Routes>
                         <Route
                             path="login"
                             element={
-                                <LoginPage onUserLogin={this.handleUserLogin} />
+                                <LoginPage errorMessage={this.state.errorMessage} onUserLogin={this.handleUserLogin} />
                             } />
                         <Route path="admin">
                             <Route
