@@ -28,7 +28,6 @@ class Ambulance extends Component {
                 password: "",
             },
         };
-        console.log(this);
 
         this.isUserAuthenticated.bind(this);
     }
@@ -46,8 +45,6 @@ class Ambulance extends Component {
             ApiService.getInstance().apiGet('check-token')
                 .then(response => {
                     let endpoint = response.data.user_role + '/examinations';
-                    console.log('token_valid', response.data.is_token_valid);
-                    console.log('sss', response);
 
                     if (response.data.is_token_valid === true) {
                         isUserAuthenticated = true;
@@ -64,8 +61,6 @@ class Ambulance extends Component {
                 });
 
         }
-        console.log('---------------------------');
-        
     }
 
     handleUserLogin = (formData) => {
@@ -76,7 +71,6 @@ class Ambulance extends Component {
                 });
             })
             .then((response) => {
-                console.log("response", response);
                 // Navigate to main page
                 let endpoint = response.data.user_role + '/examinations';
                 

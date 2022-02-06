@@ -83,8 +83,7 @@ class DoctorsController extends Controller
             'name' => 'string|required',
             'last_name' => 'string',
             'doctor_type_id' => 'integer|required|exists:doctor_types,id',
-            'username' => 'required|string',
-            'password' => 'string',
+            'username' => 'required|string'
         ]);
 
         if ($validator->fails()) {

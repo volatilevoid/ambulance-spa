@@ -21,7 +21,6 @@ class ExaminationsPage extends Component {
                 examination.is_completed = examination.is_completed != 0;
                 return examination;
             });
-            console.log(examinations);
             this.setState({
                 examinations: examinations
             });

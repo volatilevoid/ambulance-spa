@@ -28,7 +28,6 @@ class ApiService
             config = Object.assign({params: queryParams}, this.config);
         }
 
-        console.log(this.BASE_URL + endpoint);
         return axios.get(this.BASE_URL + endpoint, config);
     }
 

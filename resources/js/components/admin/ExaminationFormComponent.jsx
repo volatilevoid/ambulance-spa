@@ -24,7 +24,6 @@ class ExaminationFormComponent extends Component {
     }
 
     handleChange = (event) => {
-        console.log(event);
 
         if(event.target.name === 'is_completed') {
             this.setState({
@@ -52,7 +51,6 @@ class ExaminationFormComponent extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this);
         ApiService.getInstance().apiPost('admin/examinations', {
             id: this.state.id,
             patient_id: this.state.patient_id,
@@ -71,7 +69,6 @@ class ExaminationFormComponent extends Component {
         // get all doctors
         ApiService.getInstance().apiGet('admin/doctors')
             .then(response => {
-                console.log('doctors', response);
                 this.setState({
                     doctors: response.data.doctors
                 });
@@ -80,17 +77,14 @@ class ExaminationFormComponent extends Component {
         // get all patients
         ApiService.getInstance().apiGet('admin/patients')
             .then(response => {
-                console.log('patients', response);
                 this.setState({
                     patients: response.data.patients
                 });
             });
-// -------------------------
-        console.log(this);
+
         if (this.props.params.id != 0) {
             ApiService.getInstance().apiGet(`admin/examinations/${this.props.params.id}`)
                 .then(response => {
-                    console.log('response', response);
                     this.setState({
                         id: response.data.examination.id,
                         patient_id: response.data.examination.patient_id,
@@ -99,7 +93,6 @@ class ExaminationFormComponent extends Component {
                         scheduled_appointment: new Date(response.data.examination.scheduled_appointment),
                         is_completed: response.data.examination.is_completed
                     });
-                    console.log(this);
                 });
         }
 
@@ -114,7 +107,6 @@ class ExaminationFormComponent extends Component {
         } else {
             // ApiService.getInstance().apiGet('unavailable-examination-dates', {user_id: doctorID})
             // .then(response => {
-            //     console.log(response);
             //     this.setState({
             //         unavailable_dates: response.data.dates
             //     });
@@ -132,11 +124,12 @@ class ExaminationFormComponent extends Component {
 
 
     render() {
+        const areDoctorOrPatientUnselected = !(this.state.user_id != 0 && this.state.patient_id != 0);
         const doctors = this.state.doctors.map(doctor => <option key={doctor.id} value={doctor.id}>{`${doctor.id}: ${doctor.name} ${doctor.last_name}`}</option>);
         const patients = this.state.patients.map(patient => <option key={patient.id} value={patient.id}>{`${patient.id}: ${patient.name} ${patient.last_name}`}</option>);
         const button = this.state.id === 0 ? 
-            <button type="submit" disabled={this.state.submit_disabled} className="btn btn-primary">Create</button> :
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" disabled={this.state.submit_disabled || areDoctorOrPatientUnselected} className="btn btn-primary">Create</button> :
+            <button type="submit" disabled={areDoctorOrPatientUnselected} className="btn btn-primary">Submit</button>
         let headerContent = this.state.id === 0 ? 'Create examination' : 'Update examination'
 
         return (
@@ -183,7 +176,7 @@ class ExaminationFormComponent extends Component {
                         className="form-control" 
                         type="text" 
                         name='diagnosis'
-                        disabled={this.state.id === 0 || this.state.is_completed}
+                        disabled={this.state.id == 0 || this.state.is_completed}
                         value={this.state.diagnosis} 
                         onChange={this.handleChange}/>
                     </div>
@@ -193,7 +186,7 @@ class ExaminationFormComponent extends Component {
                         className="form-check-input" 
                         name="is_completed"
                         type="checkbox"
-                        disabled={this.state.id === 0}
+                        disabled={this.state.id == 0}
                         checked={this.state.is_completed} 
                         onChange={this.handleChange}
                         id="is-completed-input" />

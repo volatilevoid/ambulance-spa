@@ -18,8 +18,6 @@ class DoctorFormComponent extends Component {
     }
 
     handleChange = (event) => {
-        console.log('this', this);
-        console.log('event', event);
         // shallow
         this.setState({
             [event.target.name]: event.target.value
@@ -50,7 +48,6 @@ class DoctorFormComponent extends Component {
     }
 
     componentDidMount() {
-        console.log(this);
         ApiService.getInstance().apiGet('admin/doctor-types')
             .then(response => {
                 this.setState({
@@ -61,7 +58,6 @@ class DoctorFormComponent extends Component {
         if (this.props.params.id != 0) {
             ApiService.getInstance().apiGet(`admin/doctors/${this.props.params.id}`)
                 .then(response => {
-                    console.log(response);
                     this.setState({
                         id: response.data.doctor.id,
                         name: response.data.doctor.name,
@@ -75,7 +71,6 @@ class DoctorFormComponent extends Component {
     }
 
     render() {
-        console.log(this);
         const doctor_types = this.state.doctorTypes.map(doctorType => <option key={doctorType.id} value={doctorType.id}>{doctorType.name}</option>);
         const button = this.state.id === 0 ? 
             <button type="submit" disabled={this.state.submit_disabled || this.state.doctor_type_id == 0} className="btn btn-primary">Createxxx</button> :

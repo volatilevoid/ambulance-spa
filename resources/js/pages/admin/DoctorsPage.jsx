@@ -18,7 +18,6 @@ class DoctorsPage extends Component {
     fetchDoctors() {
         ApiService.getInstance().apiGet('admin/doctors')
             .then(response => {
-                console.log('res', response);
                 if (response.data.success) {
                     this.setState({
                         doctors: response.data.doctors
@@ -34,7 +33,6 @@ class DoctorsPage extends Component {
         if(confirmed) {
             ApiService.getInstance().apiDelete(`admin/doctors/${doctor_id}`)
                 .then(result => {
-                    console.log(result);
                     this.fetchDoctors();
                 });
         }

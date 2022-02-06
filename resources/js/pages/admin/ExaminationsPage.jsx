@@ -22,7 +22,6 @@ class ExaminationsPage extends Component {
                 return examination;
             });
 
-            console.log(examinations);
             this.setState({
                 examinations: examinations
             });
@@ -35,7 +34,6 @@ class ExaminationsPage extends Component {
         if(confirmed) {
             ApiService.getInstance().apiDelete(`admin/examinations/${examinationID}`)
                 .then(result => {
-                    console.log(result);
                     this.fetchExaminations();
                 });
         }

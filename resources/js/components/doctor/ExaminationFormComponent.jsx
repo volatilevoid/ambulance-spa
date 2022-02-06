@@ -18,14 +18,12 @@ class ExaminationFormComponent extends Component {
         if (this.props.params.id != 0) {
             ApiService.getInstance().apiGet(`doctor/examinations/${this.props.params.id}`)
                 .then(response => {
-                    console.log('response', response);
                    this.setState({
                     id: response.data.examination.id,
                     patient: response.data.examination.patient,
                     scheduled_appointment: response.data.examination.scheduled_appointment,
                     diagnosis: response.data.examination.diagnosis,
                    });
-                    console.log(this);
                 });
         }
     }
@@ -52,7 +50,6 @@ class ExaminationFormComponent extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this);
         ApiService.getInstance().apiPost('doctor/examinations', {
             id: this.state.id,
             diagnosis: this.state.diagnosis,
