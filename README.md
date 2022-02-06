@@ -45,3 +45,15 @@ not completed examination.
 - Type (ID from the secondary table typ_doctor)
 - Username (up to 32 characters)
 - Password (up to 32 characters)
+
+## Requirements
+- PHP >= 7.4
+- Composer
+- Node >= 14.17.5
+
+## On first run instructions
+- create database with name from .env
+- `composer install`
+- `npm install`
+- `php artisan migrate`
+- `php artisan db:seed` (user_admin & user_doctor, check db seeder class for credentials)

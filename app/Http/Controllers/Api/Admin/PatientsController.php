@@ -72,9 +72,9 @@ class PatientsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id' => 'integer',
-            'name' => 'string|required',
-            'last_name' => 'string',
-            'location_id' => 'integer|required',
+            'name' => 'string|required|max:100',
+            'last_name' => 'string|max:100',
+            'location_id' => 'integer|required|exists:locations,id',
             'personal_identification_number' => 'required|digits:13',
         ]);
 

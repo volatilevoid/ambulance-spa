@@ -18,7 +18,11 @@ class ExaminationsPage extends Component {
         axios.get('http://ambulance.local/api/admin/examinations')
         .then(response => {
             const examinations = response.data.examinations.map(examination => {
+                const formattedDatetime = new Date(examination.scheduled_appointment);
+
+                examination.scheduled_appointment = formattedDatetime.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}).replaceAll('/', '.')
                 examination.is_completed = examination.is_completed != 0;
+
                 return examination;
             });
 

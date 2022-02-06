@@ -110,7 +110,7 @@ class ExaminationFormComponent extends Component {
                 unavailable_dates: []
             });
         } else {
-            // ApiService.getInstance().apiGet('unavailable-examination-dates', {user_id: doctorID})
+            // ApiService.getInstance().apiGet('unavailable-examination-datetimes', {user_id: doctorID})
             // .then(response => {
             //     this.setState({
             //         unavailable_dates: response.data.dates
@@ -183,6 +183,7 @@ class ExaminationFormComponent extends Component {
                     <div className="mb-3">
                         <label className="form-label">Diagnosis</label>
                         <textarea 
+                        maxLength="2000"
                         id="diagnosis-input" 
                         className="form-control" 
                         type="text" 

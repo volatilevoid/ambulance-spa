@@ -172,8 +172,8 @@ class ExaminationsController extends Controller
             'message'=> Examination::destroy($id)
         ]);
     }
-
-    public function unavailableDates(Request $request)
+    // TODO
+    public function unavailableDtForSchedule(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'integer|required'
@@ -186,11 +186,8 @@ class ExaminationsController extends Controller
             ]);
         }
 
-        $query = Examination::query()
-            ->where('user_id', '=', $request->user_id)
-            ->select('scheduled_appointment');
-
-        $availableDates = DB::select($query->toSql(), $query->getBindings());
+        $availableDates = Examination::where('user_id', '=', $request->user_id)
+            ->pluck('scheduled_appointment');
 
         return response()->json([
             'dates' => $availableDates

@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-/**
- * TODO
- * 
- * - search
- * - failed req message
- */
-
 class DoctorsController extends Controller
 {
     /**
@@ -77,8 +70,8 @@ class DoctorsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id' => 'integer',
-            'name' => 'string|required',
-            'last_name' => 'string',
+            'name' => 'string|required|string|max:100',
+            'last_name' => 'string|max:100',
             'doctor_type_id' => 'integer|required|exists:doctor_types,id',
             'username' => 'required|string'
         ]);

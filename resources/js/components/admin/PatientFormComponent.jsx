@@ -42,13 +42,11 @@ class PatientFormComponent extends Component {
             personal_identification_number: this.state.personal_identification_number,
             note: this.state.note 
         }).then(response => {
-            console.log('response', response);
             if (response.data.success) {
                 this.props.navigate(-1);
             } else {
                 this.setState({errorMessage: response.data.message});
             }
-            console.log(this);
         });
     }
 
@@ -89,7 +87,6 @@ class PatientFormComponent extends Component {
             errors = Object.keys(this.state.errorMessage).map(key => <p className='text-danger' key={key}>{this.state.errorMessage[key]}</p>);
         }
 
-        console.log(errors);
         return (
             <div >
                 <h1>{ headerContent }</h1>
@@ -139,6 +136,7 @@ class PatientFormComponent extends Component {
                     <div className="mb-3">
                         <label className="form-label">Note</label>
                         <textarea 
+                        maxLength="1000"
                         id="note-input" 
                         className="form-control" 
                         type="text" 

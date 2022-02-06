@@ -26,7 +26,7 @@ Route::post('logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth:sanctum'])->group(function() {
     Route::get('locations', [LocationsController::class, 'get']);
-    Route::get('unavailable-examination-dates', [AdminExaminationsController::class, 'unavailableDates']);
+    Route::get('unavailable-examination-datetimes', [AdminExaminationsController::class, 'unavailableDtForSchedule']);
 
     Route::group(['prefix' => 'admin'], function() {
         Route::resource('examinations', AdminExaminationsController::class);
