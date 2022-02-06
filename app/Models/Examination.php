@@ -16,6 +16,10 @@ class Examination extends Model
      */
     protected $guarded = [];
 
+    protected $casts = [
+        'is_completed' => 'boolean'
+    ];
+
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id');

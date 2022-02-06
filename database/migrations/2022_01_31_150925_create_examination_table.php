@@ -17,8 +17,9 @@ class CreateExaminationTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('patient_id')->constrained();
+            $table->timestamp('scheduled_appointment');
             $table->boolean('is_completed')->default(0);
-            $table->string('diagnosis', 2000);
+            $table->string('diagnosis', 2000)->nullable();
             $table->timestamps();
 
         });

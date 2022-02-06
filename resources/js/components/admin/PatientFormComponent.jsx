@@ -42,14 +42,14 @@ class PatientFormComponent extends Component {
             note: this.state.note 
         }).then(response => {
             if (response.data.success) {
-                this.setState({
-                    id: response.data.patient.id,
-                    name: response.data.patient.name,
-                    last_name: response.data.patient.last_name,
-                    location_id: response.data.patient.location_id,
-                    personal_identification_number: response.data.patient.personal_identification_number,
-                    note: response.data.patient.note, 
-                });
+                // this.setState({
+                //     id: response.data.patient.id,
+                //     name: response.data.patient.name,
+                //     last_name: response.data.patient.last_name,
+                //     location_id: response.data.patient.location_id,
+                //     personal_identification_number: response.data.patient.personal_identification_number,
+                //     note: response.data.patient.note, 
+                // });
                 this.props.navigate(-1);
             }
         });

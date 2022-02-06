@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import PatientFormComponent from '../../components/admin/PatientFormComponent';
+import ExaminationFormComponent from '../../components/admin/ExaminationFormComponent';
 import { withRouter } from '../../routes/withRouter';
 
-class SinglePatientPage extends Component {
+class SingleExaminationPage extends Component {
     constructor(props) {
         super(props);
         this.state = {  };
     }
+    
+
 
     render() {
         return (
             <div>
-                <PatientFormComponent />
+                <ExaminationFormComponent />
             </div>
-
         );
     }
 }
 
-export default withRouter(SinglePatientPage);
+export default withRouter(SingleExaminationPage);

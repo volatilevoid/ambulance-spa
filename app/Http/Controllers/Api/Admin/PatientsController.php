@@ -23,7 +23,7 @@ class PatientsController extends Controller
         $locatonID = $request->get('location_id');
 
         $query = Patient::query()->join('locations', 'patients.location_id', '=', 'locations.id');
-        
+        // TODO Search
         if(!is_null($q)) {
             $query->where('id', 'LIKE', "%{$q}%")
                 ->orWhere('name', 'LIKE', "%{$q}%" )
@@ -61,7 +61,7 @@ class PatientsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage || Update resource
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -97,12 +97,14 @@ class PatientsController extends Controller
             ]);
         } else {
             $patient = Patient::find($patientID);
+
             if (!is_null($patient)) {
                 $patient->name = $request->name;
                 $patient->last_name = $request->last_name;
                 $patient->location_id = $request->location_id;
                 $patient->personal_identification_number = $request->personal_identification_number;
                 $patient->note = $request->note;
+                
                 if (!$patient->save()) {
                     throw new Exception('Error updating patient');
                 }
@@ -123,6 +125,15 @@ class PatientsController extends Controller
      */
     public function show($id)
     {
+        $validator = Validator::make(['id' => $id], ['id' => 'required|integer']);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ]);
+        }
+
         $patient = Patient::find($id);
 
         return response()->json([
@@ -161,7 +172,15 @@ class PatientsController extends Controller
      */
     public function destroy($id)
     {
-        // Patient::destroy($id);
+        $validator = Validator::make(['id' => $id], ['id' => 'required|integer']);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ]);
+        }
+
         return response()->json([
             'message'=> Patient::destroy($id)
         ]);

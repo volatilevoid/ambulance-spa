@@ -21,8 +21,15 @@ class ApiService
         return this.classInstance;
     }
 
-    apiGet(endpoint) {
-        return axios.get(this.BASE_URL + endpoint, this.config);
+    apiGet(endpoint, queryParams = {}) {
+        let config = this.config        
+        
+        if (Object.keys(queryParams).length !== 0) {
+            config = Object.assign({params: queryParams}, this.config);
+        }
+
+        console.log(this.BASE_URL + endpoint);
+        return axios.get(this.BASE_URL + endpoint, config);
     }
 
     apiPost(endpoint, data ={}) {

@@ -7,9 +7,11 @@ import ExaminationsPage from './pages/admin/ExaminationsPage';
 import LoginPage from './pages/auth/LoginPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import axios from 'axios';
+import { withRouter } from './routes/withRouter';
 import ApiService from './services/ApiService';
 import SinglePatientPage from './pages/admin/SinglePatientPage';
-import { withRouter } from './routes/withRouter';
+import SingleDoctorPage from "./pages/admin/SingleDoctorPage";
+import SingleExaminationPage from './pages/admin/SingleExaminationPage';
 
 class Ambulance extends Component {
     authTokenLabel = "amb_auth_token";
@@ -122,7 +124,7 @@ class Ambulance extends Component {
                         onLogoutBtnClicked={this.handleUserLogout}
                     />
                 </div>
-                <div className="col p-3 d-flex align-items-center justify-content-center">
+                <div className="col p-3 d-flex align-items-start justify-content-center">
                     <Routes>
                         <Route
                             path="login"
@@ -139,11 +141,27 @@ class Ambulance extends Component {
                                     </ProtectedRoute>
                                 } />
                             <Route
+                                path="examinations/:id"
+                                element={
+                                    <ProtectedRoute
+                                        isAuth={ this.state.isAuthenticated }>
+                                        <SingleExaminationPage />
+                                    </ProtectedRoute>
+                                } />
+                            <Route
                                 path="doctors"
                                 element={
                                     <ProtectedRoute
                                         isAuth={ this.state.isAuthenticated }>
                                         <DoctorsPage />
+                                    </ProtectedRoute>
+                                } />
+                            <Route
+                                path="doctors/:id"
+                                element={
+                                    <ProtectedRoute
+                                        isAuth={ this.state.isAuthenticated }>
+                                        <SingleDoctorPage />
                                     </ProtectedRoute>
                                 } />
                             <Route

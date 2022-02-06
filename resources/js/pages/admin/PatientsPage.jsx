@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import ApiService from '../../services/ApiService';
 class PatientsPage extends Component {
@@ -8,14 +7,13 @@ class PatientsPage extends Component {
      }
 
     componentDidMount() {
-        this.getPatients();
+        this.fetchPatients();
     }
 
-    getPatients() {
+    fetchPatients() {
         ApiService.getInstance().apiGet('admin/patients')
             .then(response => {
                 console.log('res', response);
-                // TODO set patients
                 if (response.data.success) {
                     this.setState({
                         patients: response.data.patients
@@ -32,7 +30,7 @@ class PatientsPage extends Component {
             ApiService.getInstance().apiDelete(`admin/patients/${patient_id}`)
                 .then(result => {
                     console.log(result);
-                    this.getPatients();
+                    this.fetchPatients();
                 });
         }
     }

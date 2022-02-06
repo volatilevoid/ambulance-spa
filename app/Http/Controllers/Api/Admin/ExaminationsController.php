@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Examination;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ExaminationsController extends Controller
 {
+    // Examination duration in [min]
+    const DURATION_TIME_MIN = 30;
     /**
      * Display a listing of the resource.
      *
@@ -15,16 +21,31 @@ class ExaminationsController extends Controller
      */
     public function index(Request $request)
     {
-        // $patientID = $request->get('patient_id');
-        // $doctorID = $request->get('doctor_id');
-        // $from = $request->get('from');
-        // $to = $request->to('to');
-        // $isCompleted = $request->get('is_completed');
+        $patientID = $request->get('patient_id');
+        $doctorID = $request->get('user_id');
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $isCompleted = $request->get('is_completed');
 
-        // $query = Examination::query();
+        $query = Examination::query()
+            ->join('users', 'examinations.user_id', '=', 'users.id')
+            ->join('patients', 'examinations.patient_id', '=', 'patients.id');
+
+        $query->select([
+            'examinations.id', 
+            'users.id AS user_id', 
+            DB::raw("CONCAT(users.name, ' ', users.last_name) AS doctor"),
+            'patient_id', 
+            DB::raw("CONCAT(patients.name, ' ', patients.last_name) AS patient"),
+            'scheduled_appointment',
+            'is_completed'
+        ]);
+
+        $examination = DB::select($query->toSql(), $query->getBindings());
 
         return response()->json([
-            'response' => 'ExaminationsController@index'
+            'success' => true,
+            'examinations' => $examination
         ]);
     }
 
@@ -46,7 +67,53 @@ class ExaminationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $examinationID = $request->get('id');
+        
+        $validator = Validator::make($request->all(), [
+            'id' => 'integer',
+            'patient_id' => 'integer|exists:patients,id',
+            'user_id' => 'integer|exists:users,id',
+            'scheduled_appointment' => 'required|string',
+            'is_completed' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message'=> $validator->errors()
+            ]);
+        }
+
+        $appointmentDatetime = Carbon::createFromFormat('d/m/Y, H:i:s', $request->scheduled_appointment);
+
+        if ($examinationID == 0) {
+            $examination = Examination::create([
+                'patient_id' => $request->patient_id,
+                'user_id' => $request->user_id,
+                'scheduled_appointment' => $appointmentDatetime,
+                'diagnosis' => ''
+            ]);
+        } else {
+            $examination = Examination::find($examinationID);
+
+            if (!is_null($examination)) {
+                $examination->patient_id = $request->patient_id;
+                $examination->user_id = $request->user_id;
+                $examination->scheduled_appointment = $appointmentDatetime;
+                $examination->diagnosis = $request->diagnosis;
+                $examination->is_completed = $request->is_completed;
+
+                if (!$examination->save()) {
+                    throw new Exception('Error updating patient');
+                }
+            }
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'examination' => $request->all()
+        ]);
     }
 
     /**
@@ -57,7 +124,11 @@ class ExaminationsController extends Controller
      */
     public function show($id)
     {
-        //
+        $examination = Examination::find($id);
+
+        return response()->json([
+            'examination' => $examination
+        ]);
     }
 
     /**
@@ -91,6 +162,32 @@ class ExaminationsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response()->json([
+            'message'=> Examination::destroy($id)
+        ]);
+    }
+
+    public function unavailableDates(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'integer|required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $query = Examination::query()
+            ->where('user_id', '=', $request->user_id)
+            ->select('scheduled_appointment');
+
+        $availableDates = DB::select($query->toSql(), $query->getBindings());
+
+        return response()->json([
+            'dates' => $availableDates
+        ]);
     }
 }
