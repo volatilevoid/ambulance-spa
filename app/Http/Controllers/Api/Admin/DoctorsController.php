@@ -15,10 +15,7 @@ use Illuminate\Support\Facades\Hash;
  * TODO
  * 
  * - search
- * - FE validation
  * - failed req message
- * - 
- * 
  */
 
 class DoctorsController extends Controller

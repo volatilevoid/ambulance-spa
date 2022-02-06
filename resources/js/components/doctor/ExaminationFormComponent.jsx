@@ -62,10 +62,7 @@ class ExaminationFormComponent extends Component {
     }
 
     render() {
-     
-        const button = this.state.id === 0 ? 
-            <button type="submit" disabled={this.state.submit_disabled} className="btn btn-primary">Create</button> :
-            <button type="submit" className="btn btn-primary">Submit</button>
+        const button = <button type="submit" disabled={this.state.is_completed && this.state.diagnosis.length === 0} className="btn btn-primary">Submit</button>
         let headerContent = this.state.id === 0 ? 'Create examination' : 'Update examination'
 
         return (

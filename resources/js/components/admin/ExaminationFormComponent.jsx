@@ -18,7 +18,8 @@ class ExaminationFormComponent extends Component {
             doctors: [],
             patients: [],
             unavailable_dates: [],
-            unavailable_times: []
+            unavailable_times: [],
+            errorMessage: ''
          };
 
     }
@@ -61,6 +62,10 @@ class ExaminationFormComponent extends Component {
         }).then(response => {
             if (response.data.success) {
                 this.props.navigate(-1);
+            } else {
+                this.setState({
+                    errorMessage: response.data.message
+                });
             }
         });
     }
@@ -132,9 +137,15 @@ class ExaminationFormComponent extends Component {
             <button type="submit" disabled={areDoctorOrPatientUnselected} className="btn btn-primary">Submit</button>
         let headerContent = this.state.id === 0 ? 'Create examination' : 'Update examination'
 
+        let errors = '';
+        if (this.state.errorMessage) {
+            errors = Object.keys(this.state.errorMessage).map(key => <p className='text-danger' key={key}>{this.state.errorMessage[key]}</p>);
+        }
+
         return (
             <div >
                 <h1>{ headerContent }</h1>
+                { this.state.errorMessage && errors }
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="mb-3">

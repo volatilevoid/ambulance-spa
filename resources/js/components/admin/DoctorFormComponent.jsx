@@ -13,7 +13,8 @@ class DoctorFormComponent extends Component {
             username: '',
             password: '',
             doctorTypes: [],
-            submit_disabled: true
+            submit_disabled: true,
+            errorMessage: ''
          };
     }
 
@@ -43,6 +44,10 @@ class DoctorFormComponent extends Component {
         }).then(response => {
             if (response.data.success) {
                 this.props.navigate(-1);
+            } else {
+                this.setState({
+                    errorMessage: response.data.message
+                });
             }
         });
     }
@@ -75,10 +80,17 @@ class DoctorFormComponent extends Component {
         const button = this.state.id === 0 ? 
             <button type="submit" disabled={this.state.submit_disabled || this.state.doctor_type_id == 0} className="btn btn-primary">Createxxx</button> :
             <button type="submit" disabled={this.state.doctor_type_id == 0} className="btn btn-primary">Submit</button>
-        let headerContent = this.state.id === 0 ? 'Create doctor' : 'Update doctor'
+        let headerContent = this.state.id === 0 ? 'Create doctor' : 'Update doctor';
+        let errors = '';
+        
+        if (this.state.errorMessage) {
+            errors = Object.keys(this.state.errorMessage).map(key => <p className='text-danger' key={key}>{this.state.errorMessage[key]}</p>);
+        }
+
         return (
             <div >
                 <h1>{ headerContent }</h1>
+                { this.state.errorMessage && errors }
                 <form onSubmit={this.handleSubmit}>
                     <div className="mb-3">
                         <label className="form-label">First Name</label>

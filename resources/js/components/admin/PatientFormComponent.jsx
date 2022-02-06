@@ -13,7 +13,8 @@ class PatientFormComponent extends Component {
             personal_identification_number: '',
             note: '',
             locations: [],
-            submit_disabled: true
+            submit_disabled: true,
+            errorMessage: ''
          };
     }
 
@@ -41,17 +42,13 @@ class PatientFormComponent extends Component {
             personal_identification_number: this.state.personal_identification_number,
             note: this.state.note 
         }).then(response => {
+            console.log('response', response);
             if (response.data.success) {
-                // this.setState({
-                //     id: response.data.patient.id,
-                //     name: response.data.patient.name,
-                //     last_name: response.data.patient.last_name,
-                //     location_id: response.data.patient.location_id,
-                //     personal_identification_number: response.data.patient.personal_identification_number,
-                //     note: response.data.patient.note, 
-                // });
                 this.props.navigate(-1);
+            } else {
+                this.setState({errorMessage: response.data.message});
             }
+            console.log(this);
         });
     }
 
@@ -86,9 +83,17 @@ class PatientFormComponent extends Component {
             <button type="submit" disabled={this.state.submit_disabled || this.state.location_id == 0} className="btn btn-primary">Create</button> :
             <button type="submit" disabled={this.state.location_id == 0} className="btn btn-primary">Submit</button>
         let headerContent = this.state.id === 0 ? 'Create patient' : 'Update patient'
+        let errors = '';
+        
+        if (this.state.errorMessage) {
+            errors = Object.keys(this.state.errorMessage).map(key => <p className='text-danger' key={key}>{this.state.errorMessage[key]}</p>);
+        }
+
+        console.log(errors);
         return (
             <div >
                 <h1>{ headerContent }</h1>
+                { this.state.errorMessage && errors }
                 <form onSubmit={this.handleSubmit}>
                     <div className="mb-3">
                         <label className="form-label">First Name</label>
